@@ -1,18 +1,27 @@
 package main.java.hello;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.micrometer.core.instrument.MeterRegistry;
+
 
 
 @RestController
 public class GreetingController {
-
+	Logger logger = LoggerFactory.getLogger(GreetingController.class);
+	GreetingController(MeterRegistry meterRegistry) {
+	       meterRegistry.gauge("users.current", (int)(Math.random()));
+	    }
+	
 	@GetMapping("/")
 	public String returnContent() {
+		logger.info("A TRACE Message");
 		return "ZF signs definitive agreement to acquire WABCO\r\n" + 
 				"ZF and WABCO to form a leading global integrated systems provider for commercial vehicle technology with combined sales of approximately €40 billion\r\n" + 
 				"Complementary capabilities of both companies to create added value for ZF’s commercial vehicle customers\r\n" + 
